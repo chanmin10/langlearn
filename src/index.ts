@@ -1,14 +1,13 @@
 import 'dotenv/config'
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
-import { bearerAuth } from './middleware/auth.js'
 import { wordLookupRoute } from './routes/wordLookup.js'
 import { chatRoute } from './routes/chat.js'
 import { generateCardsRoute } from './routes/generateCards.js'
 
 const app = new Hono()
 
-app.use('/api/*', bearerAuth())
+// MVP: auth disabled
 
 app.route('/api/word-lookup', wordLookupRoute)
 app.route('/api/chat', chatRoute)
