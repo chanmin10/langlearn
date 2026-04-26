@@ -27,6 +27,7 @@ wordLookupRoute.post('/', async (c) => {
 
   const nativeName = LANG_NAMES[nativeLang] ?? nativeLang
   const activeName = LANG_NAMES[activeLang] ?? activeLang
+  const wordCount = input.trim().split(/\s+/).length
 
   const google = createGoogleGenerativeAI({ apiKey: process.env.GEMINI_API_KEY! })
 
@@ -34,7 +35,7 @@ wordLookupRoute.post('/', async (c) => {
     try {
       const { fullStream } = streamText({
         model: google('gemini-2.5-flash'),
-        system: buildWordLookupSystemPrompt(nativeName, activeName),
+        system: buildWordLookupSystemPrompt(nativeName, activeName, wordCount),
         messages: [{ role: 'user', content: input }],
         maxTokens: 2000,
         temperature: 0,

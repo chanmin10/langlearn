@@ -1,4 +1,4 @@
-export function buildWordLookupSystemPrompt(nativeLanguage: string, targetLanguage: string): string {
+export function buildWordLookupSystemPrompt(nativeLanguage: string, targetLanguage: string, wordCount: number = 1): string {
   const choiceQuestion = nativeLanguage === 'Korean'
     ? '다음 중 자연스러운 표현은?'
     : 'Which is more natural?'
@@ -75,9 +75,9 @@ For CASE 1:
 - Markdown: bold (**) key terms, bullets for sub-items
 
 For CASE 2:
-First, silently count the number of words in the input.
+The input has exactly ${wordCount} word${wordCount === 1 ? '' : 's'}.
 
-If the input has 6 or more words:
+If ${wordCount} >= 6:
 - Line 1: Direct ${nativeLanguage} translation of the full sentence in bold
   e.g. "**I couldn't care less about that**: 나는 그것에 전혀 관심 없어."
 - Line 2 onwards: List only the key expressions or words
@@ -87,7 +87,7 @@ If the input has 6 or more words:
   * **couldn't care less**: 전혀 ~하지 않다 (강한 무관심 표현)
 - End with CARD_TYPE:skip
 
-If the input has 5 words or fewer:
+If ${wordCount} <= 5:
 - List each usage context as a numbered item
 - Under each context: one ${targetLanguage} example sentence as a blockquote (>)
   + ${nativeLanguage} translation on the next line, also as a blockquote (>),
@@ -129,13 +129,10 @@ CARD_BACK:<primary translation in ${nativeLanguage}, max 2–3 meanings separate
 CARD_TRANSLATION:<${nativeLanguage} translation of the example sentence>
 CARD_TYPE:normal
 
-CASE 2 (5 words or fewer):
-CARD_FRONT:<the expression exactly as input>
+CASE 2 (${wordCount} word${wordCount === 1 ? '' : 's'} — ${wordCount >= 6 ? '6 or more: skip' : '5 or fewer: save'}):
+${wordCount >= 6 ? 'CARD_TYPE:skip' : `CARD_FRONT:<the expression exactly as input>
 CARD_BACK:<core meaning in ${nativeLanguage}, max 1–2 sentences>
-CARD_TYPE:normal
-
-CASE 2 (6 words or more):
-CARD_TYPE:skip
+CARD_TYPE:normal`}
 
 CASE 3:
 CARD_FRONT:${choiceQuestion}\\nA. <original input>\\nB. <corrected expression>
