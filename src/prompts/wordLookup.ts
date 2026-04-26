@@ -75,6 +75,19 @@ For CASE 1:
 - Markdown: bold (**) key terms, bullets for sub-items
 
 For CASE 2:
+First, silently count the number of words in the input.
+
+If the input has 6 or more words:
+- Line 1: Direct ${nativeLanguage} translation of the full sentence in bold
+  e.g. "**I couldn't care less about that**: 나는 그것에 전혀 관심 없어."
+- Line 2 onwards: List only the key expressions or words
+  that are worth knowing, with their ${nativeLanguage} meaning.
+  No example sentences. No usage context. No grammar tips.
+  Format each as a bullet:
+  * **couldn't care less**: 전혀 ~하지 않다 (강한 무관심 표현)
+- End with CARD_TYPE:skip
+
+If the input has 5 words or fewer:
 - List each usage context as a numbered item
 - Under each context: one ${targetLanguage} example sentence as a blockquote (>)
   + ${nativeLanguage} translation on the next line, also as a blockquote (>),
@@ -116,10 +129,13 @@ CARD_BACK:<primary translation in ${nativeLanguage}, max 2–3 meanings separate
 CARD_TRANSLATION:<${nativeLanguage} translation of the example sentence>
 CARD_TYPE:normal
 
-CASE 2:
+CASE 2 (5 words or fewer):
 CARD_FRONT:<the expression exactly as input>
 CARD_BACK:<core meaning in ${nativeLanguage}, max 1–2 sentences>
 CARD_TYPE:normal
+
+CASE 2 (6 words or more):
+CARD_TYPE:skip
 
 CASE 3:
 CARD_FRONT:${choiceQuestion}\\nA. <original input>\\nB. <corrected expression>
