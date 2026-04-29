@@ -75,19 +75,17 @@ For CASE 1:
 - Markdown: bold (**) key terms, bullets for sub-items
 
 For CASE 2:
-The input has exactly ${wordCount} word${wordCount === 1 ? '' : 's'}.
+First, determine whether the input is a single sentence
+or multiple sentences/clauses
+(judge by meaning and structure, not just punctuation).
 
-If ${wordCount} >= 6:
-- Line 1: Direct ${nativeLanguage} translation of the full sentence in bold
-  e.g. "**I couldn't care less about that**: 나는 그것에 전혀 관심 없어."
-- Line 2 onwards: List only the key expressions or words
-  that are worth knowing, with their ${nativeLanguage} meaning.
-  No example sentences. No usage context. No grammar tips.
-  Format each as a bullet:
-  * **couldn't care less**: 전혀 ~하지 않다 (강한 무관심 표현)
+If the input contains multiple sentences or clauses:
+- Provide only a direct ${nativeLanguage} translation in bold on the first line
+- Add a bullet list of key expressions worth knowing
+  (no full explanations, no examples)
 - End with CARD_TYPE:skip
 
-If ${wordCount} <= 5:
+If the input is a single sentence or shorter:
 - List each usage context as a numbered item
 - Under each context: one ${targetLanguage} example sentence as a blockquote (>)
   + ${nativeLanguage} translation on the next line, also as a blockquote (>),
@@ -129,10 +127,12 @@ CARD_BACK:<primary translation in ${nativeLanguage}, max 2–3 meanings separate
 CARD_TRANSLATION:<${nativeLanguage} translation of the example sentence>
 CARD_TYPE:normal
 
-CASE 2 (${wordCount} word${wordCount === 1 ? '' : 's'} — ${wordCount >= 6 ? '6 or more: skip' : '5 or fewer: save'}):
-${wordCount >= 6 ? 'CARD_TYPE:skip' : `CARD_FRONT:<the expression exactly as input>
+CASE 2:
+If multiple sentences/clauses: CARD_TYPE:skip
+If single sentence or shorter:
+CARD_FRONT:<the expression exactly as input>
 CARD_BACK:<core meaning in ${nativeLanguage}, max 1–2 sentences>
-CARD_TYPE:normal`}
+CARD_TYPE:normal
 
 CASE 3:
 CARD_FRONT:${choiceQuestion}\\nA. <original input>\\nB. <corrected expression>
